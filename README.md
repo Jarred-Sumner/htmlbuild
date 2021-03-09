@@ -78,6 +78,6 @@ That's because `index.ts` imported `index.css`:
 import "./index.css";
 
 console.log(
-  "It imported the index.css file I imported into the .html file automatically"
+  'It detected the imported index.css file and inserted it directly above <script src="index.js">'
 );
 ```
