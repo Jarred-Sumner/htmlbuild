@@ -1,6 +1,6 @@
 # htmlbuild
 
-Configure & run esbuild on `<script>` and `<link>` used in an HTML file, then output an updated HTML file with the results.
+Configure & run esbuild on `<script>` and `<link>` used in an HTML file, then output an updated HTML file from the build output.
 
 ## Installation
 
