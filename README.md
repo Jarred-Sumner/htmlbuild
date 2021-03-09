@@ -4,9 +4,13 @@ Configure & run esbuild on `<script>` and `<link>` used in an HTML file, then ou
 
 ## Installation
 
+npm:
+
 ```bash
 npm install -g @jarred/htmlbuild
 ```
+
+yarn:
 
 ```yarn
 yarn global add @jarred/htmlbuild
