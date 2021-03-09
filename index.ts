@@ -86,7 +86,6 @@ export class HTML2ESBuild {
       if (!file.entryPoint) continue;
       const entryPoint = resolveFrom(file.entryPoint);
 
-      console.log(output);
       if (scripts.has(entryPoint)) {
         // CSS imports from JS
         const ext = path.extname(output);

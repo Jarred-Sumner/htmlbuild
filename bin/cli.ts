@@ -64,12 +64,13 @@ function resolve(...ars) {
   }
 }
 
-const fwd = { write: argv["write"] || true };
+const fwd = { write: Boolean(argv["write"] || true) };
 for (let key in argv) {
   if (
     key === "$0" ||
     key === "_" ||
     key === "write-html" ||
+    key === "write" ||
     key === "writeHtml" ||
     key === "$1"
   )
@@ -81,37 +82,42 @@ if (!argv["public-path"]) {
   delete config.publicPath;
 }
 
-console.log(html.generate(source, resolve));
+esbuild
+  .build({
+    ...fwd,
+    ...html.generate(source, resolve),
+    ...config,
+  })
+  .then((res) => {
+    function resolveFrom(...args) {
+      return path.resolve(...args);
+    }
 
-const res = esbuild.buildSync({
-  ...fwd,
-  ...html.generate(source, resolve),
-  ...config,
-});
+    const dest =
+      argv["writeHtml"] === "false"
+        ? path.join(process.cwd(), config.outdir, path.basename(input))
+        : path.join(path.resolve(config.outdir));
 
-function resolveFrom(...args) {
-  return path.resolve(...args);
-}
+    function resolveTo(...args) {
+      return argv["publicPath"]
+        ? argv["publicPath"] + "/" + path.join(...args)
+        : path.relative(path.resolve(config.outdir), path.join(...args));
+    }
 
-const dest =
-  argv["writeHtml"] === "false"
-    ? path.join(process.cwd(), config.outdir, path.basename(input))
-    : path.join(path.resolve(config.outdir));
-
-function resolveTo(...args) {
-  return argv["publicPath"]
-    ? argv["publicPath"] + "/" + path.join(...args)
-    : path.relative(path.resolve(config.outdir), path.join(...args));
-}
-
-if (argv["writeHtml"] === "false") {
-  process.stdout.write(
-    html.renderToString(res, config, resolveFrom, resolveTo)
-  );
-} else {
-  const out = path.join(dest, path.basename(input));
-  writeFileSync(out, html.renderToString(res, config, resolveFrom, resolveTo));
-  console.log(res);
-  console.log("Wrote to", out);
-}
-process.exit();
+    if (
+      argv["writeHtml"] === "false" ||
+      argv["write"]?.toString() === "false"
+    ) {
+      process.stdout.write(
+        html.renderToString(res, config, resolveFrom, resolveTo)
+      );
+    } else {
+      const out = path.join(dest, path.basename(input));
+      writeFileSync(
+        out,
+        html.renderToString(res, config, resolveFrom, resolveTo)
+      );
+      console.log(res);
+      console.log("Wrote to", out);
+    }
+  });

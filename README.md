@@ -5,17 +5,18 @@ Configure & run esbuild on `<script>` and `<link>` used in an HTML file, then ou
 ## Installation
 
 ```bash
-npm install -g htmlbuild
+npm install -g @jarred/htmlbuild
 ```
 
 ```yarn
-yarn global add htmlbuild
+yarn global add @jarred/htmlbuild
 ```
 
 ## Usage
 
 ```
 # All additional flags are forwarded to esbuild.
+htb index.html --outdir=dist
 htmlbuild index.html --outdir=dist
 ```
 

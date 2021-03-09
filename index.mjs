@@ -58,7 +58,6 @@ class HTML2ESBuild {
       if (!file.entryPoint)
         continue;
       const entryPoint = resolveFrom(file.entryPoint);
-      console.log(output);
       if (scripts.has(entryPoint)) {
         const ext = path.extname(output);
         const basename = output.substring(0, output.length - ext.length);
