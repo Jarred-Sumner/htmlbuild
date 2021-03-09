@@ -1,0 +1,4 @@
+test-out
+test-dir
+bin/cli.ts
+pnpm-lock.yaml

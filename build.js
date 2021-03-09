@@ -2,19 +2,21 @@ const esbuild = require("esbuild");
 
 esbuild.buildSync({
   entryPoints: ["./index.ts"],
-  platform: "node",
+  platform: "neutral",
   bundle: false,
+  format: "esm",
   write: true,
-  outfile: "./index.js",
+  outfile: "./index.mjs",
 });
 
 esbuild.buildSync({
-  entryPoints: ["./cli.ts"],
+  entryPoints: ["./bin/cli.ts"],
   platform: "node",
   bundle: true,
-  format: "cjs",
+  minify: true,
+  format: "esm",
   write: true,
   minifySyntax: true,
-  external: ["esbuild"],
-  outfile: "./cli.js",
+  external: ["esbuild", "path"],
+  outfile: "./bin/cli.mjs",
 });
