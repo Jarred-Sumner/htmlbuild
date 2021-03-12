@@ -59,7 +59,10 @@ export class HTML2ESBuild {
     build: BuildResult,
     config: BuildOptions = this.config,
     resolveFrom: (...relativePath: string[]) => string,
-    resolveTo: (...relativePath: string[]) => string
+    resolveTo: (
+      outpath: string,
+      node?: ReturnType<typeof DomUtils.getElementById>
+    ) => string
   ) {
     if (!build.metafile) throw "Build is missing metafile.";
 
@@ -101,7 +104,10 @@ export class HTML2ESBuild {
           stylesheetsToInsert.set(cssName, script);
         }
 
-        script.attribs["src"] = resolveTo(output);
+        const _output = resolveTo(output, script);
+        if (_output) {
+          script.attribs["src"] = _output;
+        }
       } else if (links.has(entryPoint)) {
         links.get(entryPoint).attribs["href"] = resolveTo(output);
       }

@@ -66,7 +66,10 @@ class HTML2ESBuild {
         if (cssOutputs.has(cssName) && (!cssOutputs.get(cssName).entryPoint || !links.has(cssOutputs.get(cssName).entryPoint))) {
           stylesheetsToInsert.set(cssName, script);
         }
-        script.attribs["src"] = resolveTo(output);
+        const _output = resolveTo(output, script);
+        if (_output) {
+          script.attribs["src"] = _output;
+        }
       } else if (links.has(entryPoint)) {
         links.get(entryPoint).attribs["href"] = resolveTo(output);
       }

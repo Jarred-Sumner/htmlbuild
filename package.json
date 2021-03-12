@@ -1,6 +1,6 @@
 {
   "name": "@jarred/htmlbuild",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Configure & run esbuild on <script> and <link> used in an HTML file, then output an updated HTML file with the results.",
   "module": "index.mjs",
   "keywords": [
